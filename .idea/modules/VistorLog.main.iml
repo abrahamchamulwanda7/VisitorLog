@@ -9,5 +9,14 @@
     </content>
     <orderEntry type="jdk" jdkName="25" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Gradle: org.mariadb.jdbc:mariadb-java-client:3.3.3" level="project" />
+    <orderEntry type="library" name="Gradle: com.github.waffle:waffle-jna:3.3.0" level="project" />
+    <orderEntry type="library" name="Gradle: net.java.dev.jna:jna-platform:5.13.0" level="project" />
+    <orderEntry type="library" name="Gradle: net.java.dev.jna:jna:5.13.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.slf4j:jcl-over-slf4j:2.0.7" level="project" />
+    <orderEntry type="library" name="Gradle: org.slf4j:slf4j-api:2.0.7" level="project" />
+    <orderEntry type="library" name="Gradle: com.github.ben-manes.caffeine:caffeine:2.9.3" level="project" />
+    <orderEntry type="library" name="Gradle: org.checkerframework:checker-qual:3.32.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.errorprone:error_prone_annotations:2.10.0" level="project" />
   </component>
 </module>

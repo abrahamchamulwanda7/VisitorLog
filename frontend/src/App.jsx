@@ -11,6 +11,9 @@ function App() {
   const [purpose, setPurpose] = useState('');
   const [staffId, setStaffId] = useState('');
   const [timeIn, setTimeIn] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [hasSearched, setHasSearched] = useState(false);
 
   useEffect(() => {
     fetchStaff();
@@ -58,6 +61,14 @@ function App() {
       body: JSON.stringify({ time_out: now }),
     });
     fetchCurrentVisitors();
+  };
+
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    setHasSearched(true);
+    const res = await fetch(`${API_URL}/visitors/search?name=${encodeURIComponent(searchTerm)}`);
+    const data = await res.json();
+    setSearchResults(data);
   };
 
   return (
@@ -125,6 +136,31 @@ function App() {
             </li>
           ))}
         </ul>
+      )}
+
+      <h2>Search Visitor History</h2>
+      <form onSubmit={handleSearch}>
+        <input
+          type="text"
+          placeholder="Search by name"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <button type="submit">Search</button>
+      </form>
+      {hasSearched && (
+        searchResults.length === 0 ? (
+          <p>No matching visitors found.</p>
+        ) : (
+          <ul>
+            {searchResults.map((v) => (
+              <li key={v.id}>
+                {v.full_name} — Visiting: {v.staff_name} — In: {v.time_in} —{' '}
+                {v.time_out ? `Left at ${v.time_out}` : 'Still in'}
+              </li>
+            ))}
+          </ul>
+        )
       )}
     </div>
   );

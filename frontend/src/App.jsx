@@ -72,96 +72,109 @@ function App() {
   };
 
   return (
-    <div style={{ maxWidth: '600px', margin: '0 auto', padding: '20px', fontFamily: 'sans-serif' }}>
-      <h1>Visitor Log</h1>
+    <div className="app-container">
+      <h1 className="app-title">Visitor Log</h1>
+      <p className="app-subtitle">Digital front-desk sign-in system</p>
 
-      <h2>Sign In a Visitor</h2>
-      <form onSubmit={handleSignIn}>
-        <div>
-          <input
-            type="text"
-            placeholder="Full name"
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <input
-            type="text"
-            placeholder="Phone number"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-          />
-        </div>
-        <div>
-          <input
-            type="text"
-            placeholder="Purpose of visit"
-            value={purpose}
-            onChange={(e) => setPurpose(e.target.value)}
-          />
-        </div>
-        <div>
-          <select value={staffId} onChange={(e) => setStaffId(e.target.value)} required>
-            <option value="">Who are they visiting?</option>
-            {staffList.map((s) => (
-              <option key={s.id} value={s.id}>
-                {s.name} ({s.department})
-              </option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <input
-            type="text"
-            placeholder="Time in (e.g. 09:30)"
-            value={timeIn}
-            onChange={(e) => setTimeIn(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">Sign In</button>
-      </form>
+      <div className="card">
+        <h2>Sign In a Visitor</h2>
+        <form onSubmit={handleSignIn}>
+          <div className="form-row">
+            <input
+              type="text"
+              placeholder="Full name"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              required
+            />
+          </div>
+          <div className="form-row">
+            <input
+              type="text"
+              placeholder="Phone number"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+            />
+          </div>
+          <div className="form-row">
+            <input
+              type="text"
+              placeholder="Purpose of visit"
+              value={purpose}
+              onChange={(e) => setPurpose(e.target.value)}
+            />
+          </div>
+          <div className="form-row">
+            <select value={staffId} onChange={(e) => setStaffId(e.target.value)} required>
+              <option value="">Who are they visiting?</option>
+              {staffList.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.name} ({s.department})
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="form-row">
+            <input
+              type="text"
+              placeholder="Time in (e.g. 09:30)"
+              value={timeIn}
+              onChange={(e) => setTimeIn(e.target.value)}
+              required
+            />
+          </div>
+          <button type="submit" className="btn-primary">Sign In</button>
+        </form>
+      </div>
 
-      <h2>Currently In</h2>
-      {currentVisitors.length === 0 ? (
-        <p>No visitors currently in the building.</p>
-      ) : (
-        <ul>
-          {currentVisitors.map((v) => (
-            <li key={v.id}>
-              {v.full_name} — Visiting: {v.staff_name} — In: {v.time_in}{' '}
-              <button onClick={() => handleSignOut(v.id)}>Sign Out</button>
-            </li>
-          ))}
-        </ul>
-      )}
-
-      <h2>Search Visitor History</h2>
-      <form onSubmit={handleSearch}>
-        <input
-          type="text"
-          placeholder="Search by name"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <button type="submit">Search</button>
-      </form>
-      {hasSearched && (
-        searchResults.length === 0 ? (
-          <p>No matching visitors found.</p>
+      <div className="card">
+        <h2>Currently In</h2>
+        {currentVisitors.length === 0 ? (
+          <p className="empty-state">No visitors currently in the building.</p>
         ) : (
-          <ul>
-            {searchResults.map((v) => (
-              <li key={v.id}>
-                {v.full_name} — Visiting: {v.staff_name} — In: {v.time_in} —{' '}
-                {v.time_out ? `Left at ${v.time_out}` : 'Still in'}
+          <ul className="visitor-list">
+            {currentVisitors.map((v) => (
+              <li key={v.id} className="visitor-item">
+                <span className="visitor-info">
+                  <strong>{v.full_name}</strong> — Visiting: {v.staff_name} — In: {v.time_in}
+                </span>
+                <button className="btn-secondary" onClick={() => handleSignOut(v.id)}>Sign Out</button>
               </li>
             ))}
           </ul>
-        )
-      )}
+        )}
+      </div>
+
+      <div className="card">
+        <h2>Search Visitor History</h2>
+        <form onSubmit={handleSearch} className="search-row">
+          <input
+            type="text"
+            placeholder="Search by name"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <button type="submit" className="btn-primary">Search</button>
+        </form>
+        {hasSearched && (
+          searchResults.length === 0 ? (
+            <p className="empty-state">No matching visitors found.</p>
+          ) : (
+            <ul className="visitor-list">
+              {searchResults.map((v) => (
+                <li key={v.id} className="visitor-item">
+                  <span className="visitor-info">
+                    <strong>{v.full_name}</strong> — Visiting: {v.staff_name} — In: {v.time_in}
+                  </span>
+                  <span className={`status-badge ${v.time_out ? 'status-out' : 'status-in'}`}>
+                    {v.time_out ? `Left ${v.time_out}` : 'Still in'}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )
+        )}
+      </div>
     </div>
   );
 }
